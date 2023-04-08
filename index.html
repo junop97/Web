@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>다음 지도 API</title>
+	<title>성동_환기</title>
 </head>
 <body>
 	<div id="map" style="width:100%;height:100vh;"></div>
@@ -11,10 +11,11 @@
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		    mapOption = {
-		        center: new kakao.maps.LatLng(37.54418, 127.06934), // 지도의 중심좌표
-		        level: 6, // 지도의 확대 레벨
+		        center: new kakao.maps.LatLng(37.5615880, 127.03938), // 지도의 중심좌표
+		        level: 3, // 지도의 확대 레벨
 		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
 		    }; 
+
 
 		// 지도를 생성한다 
 		var map = new kakao.maps.Map(mapContainer, mapOption); 
