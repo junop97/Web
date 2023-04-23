@@ -7,6 +7,12 @@
 <body>
 	<div id="map" style="width:100%;height:100vh;"></div>
 
+	if ("geolocation" in navigator) {
+	  /* 위치정보 사용 가능 */
+	} else {
+	  /* 위치정보 사용 불가능 */
+	}
+
 	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e469d84101adbf4335d03bbaeb9435e6&libraries=clusterer"></script>
 	<script>
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
