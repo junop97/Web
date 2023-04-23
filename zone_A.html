@@ -62,11 +62,7 @@
 		clusterer.addMarkers(markers);
 
 		
-		if ("geolocation" in navigator) {
-		  /* 위치정보 사용 가능 */
-		} else {
-		  /* 위치정보 사용 불가능 */
-		}
+
 
 		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
 		function makeOverListener(map, marker, infowindow) {
@@ -82,8 +78,51 @@
 			};
 		}
 
-	</script>
 	
-	
+		if (data) {
+			ShowMultipleMarkers(map, data);
+		}
+		if (current) {
+			let locPosition = new kakao.maps.LatLng(current.Ma, current.La); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+			// 마커를 표시합니다
+			displayMarker(locPosition);
+			let options = {
+				enableHighAccuracy: false,
+			};
+			navigator.geolocation.getCurrentPosition(
+				function (position) {
+					let lat = position.coords.latitude; // 위도
+					let lon = position.coords.longitude; // 경도
+					let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+					if (locPosition.La !== current.La && locPosition.Ma !== current.Ma) {
+						console.log(locPosition, current);
+						console.log('다름');
+						setCurrent(locPosition);
+						// 마커를 표시합니다
+						displayMarker(locPosition);
+					}
+				},
+				null,
+				options,
+			);
+		} else {
+			let options = {
+				enableHighAccuracy: false,
+			};
+			navigator.geolocation.getCurrentPosition(
+				function (position) {
+					let lat = position.coords.latitude; // 위도
+					let lon = position.coords.longitude; // 경도
+					let locPosition = new kakao.maps.LatLng(lat, lon); // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+					setCurrent(locPosition);
+					// 마커를 표시합니다
+					displayMarker(locPosition);
+				},
+				null,
+				options,
+			);	
+
+		</script>
+
 </body>
 </html>
