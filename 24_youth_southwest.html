@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>2024 경북도청 청년부부 서남부(16세대)</title>
+</head>
+<body>
+	<div id="map" style="width:100%;height:100vh;"></div>
+
+	<script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e469d84101adbf4335d03bbaeb9435e6&libraries=clusterer"></script>
+	<script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(35.837021,128.7294053), // 지도의 중심좌표
+		        level: 10, // 지도의 확대 레벨
+		        mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+		    }; 
+
+		// 지도를 생성한다 
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+		// 마커 클러스터러를 생성합니다 
+		var clusterer = new kakao.maps.MarkerClusterer({
+			map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+			averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+			minLevel: 12 // 클러스터 할 최소 지도 레벨 
+		});
+
+		var sd_address_data = [
+			// [37.553210,126.972614,'내용1'],[37.558907,126.978305,'내용2'], [37.533647,126.971986,'내용3']	
+			[36.11866995,128.1418988,"임민우(김천)"],
+			[36.19600939,128.0921695,"김인영(김천)"],
+			[36.20048309,128.106871,"이현석(김천)"],
+			[36.14728998,128.4091842,"이영미(구미)"],
+			[36.09176724,128.4235718,"구봉수(구미)"],
+			[36.14424338,128.3300666,"정재석(구미)"],
+			[35.97171633,128.9501581,"김병영(영천)"],
+			[35.97682315,128.9441374,"김승희(영천)"],
+			[35.837021,128.7294053,"정희도(경산)"],
+			[35.64014188,128.6214228,"김태리(청도)"],
+			[35.70879249,128.23363,"곽성종(고령)"],
+			[35.72751298,128.2670049,"현지연(고령)"],
+			[35.92197996,128.2880093,"김지연(성주)"],
+			[35.91689406,128.2836282,"도일순(성주)"],
+			[36.0774172,128.4107553,"누엔티늉(칠곡)"],
+			[35.99640235,128.4055346,"정동이(칠곡)"]
+	];
+
+		var markers = [];
+		for (var i = 0; i < sd_address_data.length; i++) {
+			// 지도에 마커를 생성하고 표시한다
+			var marker = new kakao.maps.Marker({
+				position: new kakao.maps.LatLng(sd_address_data[i][0],sd_address_data[i][1]), // 마커의 좌표
+				map: map // 마커를 표시할 지도 객체	
+			});
+
+			// 마커 위에 표시할 인포윈도우를 생성한다
+			var infowindow = new kakao.maps.InfoWindow({
+				content : sd_address_data[i][2] // 인포윈도우에 표시할 내용
+			});
+
+			// 인포윈도우를 지도에 표시한다
+			infowindow.open(map, marker);
+			markers.push(marker); //클러스터러
+				
+			// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+			// 이벤트 리스너로는 클로저를 만들어 등록합니다 
+			// for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+			kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+			kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+		}
+		clusterer.addMarkers(markers);
+
+
+		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+		function makeOverListener(map, marker, infowindow) {
+			return function() {
+				infowindow.open(map, marker);
+			};
+		}
+
+		// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+		function makeOutListener(infowindow) {
+			return function() {
+				infowindow.close();
+			};
+		}
+
+	</script>
+</body>
+</html>
